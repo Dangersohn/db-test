@@ -1,0 +1,8 @@
+            {{ range $folgen := folge}}
+            <tr>
+                <td>{{$folge.Staffel}}</td>
+                <td>{{$folge.Nummer}}</td>
+                <td>{{$folge.FolgenName}}</td>
+            </tr>
+        </td>
+        {{ end }}

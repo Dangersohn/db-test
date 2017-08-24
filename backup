@@ -1,0 +1,38 @@
+func add() {
+	session, err := mgo.Dial(MongoDBHost)
+	session.SetMode(mgo.Monotonic, true)
+	if err != nil {
+		panic(err)
+	}
+	defer session.Close()
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Print("Enter name: ")
+	name, _ := reader.ReadString('\n')
+
+	fmt.Print("Enter nummer: ")
+	nummer, _ := reader.ReadString('\n')
+
+	name = strings.Replace(name, "\n", "", -1)
+	nummer = strings.Replace(nummer, "\n", "", -1)
+
+	c := session.DB("test").C("people")
+	err = c.Insert(&Person{name, nummer})
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func ausgabe() {
+	result := Person{}
+	DataStore
+	var results []Person
+
+	err = c.Find(bson.M{"name": "Niklas"}).One(&result)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = c.Find(nil).All(&results)
+	fmt.Println("Alle:", results)
+}

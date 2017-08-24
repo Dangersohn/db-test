@@ -1,0 +1,113 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"log"
+	"os"
+	"strings"
+
+	"gopkg.in/mgo.v2/bson"
+
+	"gopkg.in/mgo.v2"
+)
+
+const (
+	MongoDBHost    = "127.0.0.1:27017"
+	DBName         = "test"
+	CollectionName = "people"
+)
+
+// Person speichert die Daten
+type Person struct {
+	Name  string
+	Phone string
+}
+
+// DataStore is voll cool
+type DataStore struct {
+	session *mgo.Session
+}
+
+func main() {
+	mongoSession, err := mgo.Dial(MongoDBHost)
+	if err != nil {
+		log.Fatalf("CreateSession: %s\n", err)
+	}
+	mongoSession.SetMode(mgo.Monotonic, true)
+	ShowEntrys(mongoSession)
+	AddEntrys(mongoSession)
+	ShowEntrys(mongoSession)
+	DelEntrys(mongoSession)
+	ShowEntrys(mongoSession)
+
+}
+
+//DelEntrys ermögtlich das Löschen von Einträgen
+func DelEntrys(mongoSession *mgo.Session) {
+	sessionCopy := mongoSession.Copy()
+	defer sessionCopy.Close()
+
+	collection := sessionCopy.DB(DBName).C("people")
+
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter name: ")
+	name, _ := reader.ReadString('\n')
+
+	name = strings.Replace(name, "\n", "", -1)
+
+	err := collection.Remove(bson.M{"name": name})
+	if err != nil {
+		log.Printf("DelEntrys : ERROR : %s\n", err)
+	}
+
+}
+
+//AddEntrys ermögtlich es einträge in die DB zumachen
+func AddEntrys(mongoSession *mgo.Session) {
+	sessionCopy := mongoSession.Copy()
+	defer sessionCopy.Close()
+
+	collection := sessionCopy.DB(DBName).C("people")
+
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter name: ")
+	name, _ := reader.ReadString('\n')
+
+	fmt.Print("Enter number: ")
+	nummer, _ := reader.ReadString('\n')
+
+	name = strings.Replace(name, "\n", "", -1)
+	nummer = strings.Replace(nummer, "\n", "", -1)
+
+	collection.Insert(&Person{name, nummer})
+
+}
+
+// ShowEntrys is a function that is launched as a goroutine to perform
+// the MongoDB work.
+func ShowEntrys(mongoSession *mgo.Session) {
+
+	// Request a socket connection from the session to process our query.
+	// Close the session when the goroutine exits and put the connection back
+	// into the pool.
+	sessionCopy := mongoSession.Copy()
+	defer sessionCopy.Close()
+
+	// Get a collection to execute the query against
+	collection := sessionCopy.DB(DBName).C("people")
+
+	//Ausgabe von Person
+	var person []Person
+	err := collection.Find(nil).All(&person)
+	if err != nil {
+		log.Printf("RunQuery : ERROR : %s\n", err)
+		return
+	}
+
+	i := 1
+	for i < len(person) {
+		fmt.Printf("Name: %s \t Number: %s\n", person[i].Name, person[i].Phone)
+		i++
+	}
+}

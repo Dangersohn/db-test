@@ -1,0 +1,1 @@
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Westworld","cover":"https://drive.google.com/uc?id=0B8QqZN2m0iKZMnhyREdfR0I4R2M","Folge":[{"FolgenName":"The Original","Nummer":"1","Staffel":"1"},{"FolgenName":"Chestnut","Nummer":"2","Staffel":"1"},{"FolgenName":"The Stray","Nummer":"3","Staffel":"1"}]}' http://localhost:8080/serien
