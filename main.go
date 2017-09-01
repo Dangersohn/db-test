@@ -61,6 +61,7 @@ func main() {
 	mux := goji.NewMux()
 	mux.HandleFunc(pat.Get("/serien"), allEntrys(mongoSession))
 	mux.HandleFunc(pat.Post("/serien"), addEntry(mongoSession))
+	mux.HandleFunc(pat.Get("/find/:name"), findEntry(mongoSession))
 	http.ListenAndServe("localhost:8080", mux)
 }
 
@@ -73,6 +74,33 @@ func allEntrys(s *mgo.Session) func(w http.ResponseWriter, r *http.Request) {
 
 		var serie []Serie
 		err := c.Find(bson.M{}).All(&serie)
+		if err != nil {
+			ErrorWithJSON(w, "Database error",
+				http.StatusInternalServerError)
+			log.Println("Faild get all person: ", err)
+			return
+		}
+
+		respBody, err := json.MarshalIndent(serie, "", " ")
+		if err != nil {
+			log.Fatal(err)
+		}
+		ResponseWithJSON(w, respBody, http.StatusOK)
+	}
+}
+
+func findEntry(s *mgo.Session) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		session := s.Copy()
+		defer session.Close()
+
+		c := session.DB(DBName).C(CollectionName)
+
+		name := pat.Param(r, "name")
+
+		var serie []Serie
+
+		err := c.Find(bson.M{"name": name}).All(&serie)
 		if err != nil {
 			ErrorWithJSON(w, "Database error",
 				http.StatusInternalServerError)

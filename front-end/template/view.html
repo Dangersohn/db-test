@@ -16,37 +16,39 @@
   <div class="container-fluid col-12">
     {{end}} {{define "content"}} {{ template "header"}}
     <div class="card-group">
-    {{ range $key, $serie := . }}
-    <div class="card" style="width: 22rem;">
-      <div class="mh-100 mx-auto" style="width: 100px; height: 150px;">
-        <img class="card-img-top img-thumbnail " src="{{$serie.Cover}}" alt="Card image cap">
+      {{ range $key, $serie := . }}
+      <div class="card" style="width: 22rem;">
+        <div class="mh-100 mx-auto" style="width: 100px; height: 150px;">
+          <img class="card-img-top img-thumbnail " src="{{$serie.Cover}}" alt="Card image cap">
+        </div>
+        <div class="card-block">
+          <h4 class="card-title text-center">{{$serie.Name}}</h4>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Staffel</th>
+                <th>Folge</th>
+                <th>Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{ range $keyF, $was := .Folge }}
+              <tr>
+                <td>{{(index $serie.Folge $keyF).Staffel}}</td>
+                <td>{{(index $serie.Folge $keyF).Nummer}}</td>
+                <td>{{(index $serie.Folge $keyF).FolgenName}}</td>
+              </tr>
+              {{end}}
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div class="card-block">
-        <h4 class="card-title text-center">{{$serie.Name}}</h4>
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>Staffel</th>
-              <th>Folge</th>
-              <th>Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{ range $keyF, $was := .Folge }}
-            <tr>
-              <td>{{(index $serie.Folge $keyF).Staffel}}</td>
-              <td>{{(index $serie.Folge $keyF).Nummer}}</td>
-              <td>{{(index $serie.Folge $keyF).FolgenName}}</td>
-            </tr>
-            {{end}}
-          </tbody>
-        </table>
-      </div>
+      {{end}} {{ template "footer"}} {{ end }} {{define "footer"}}
     </div>
-    {{end}}
-    </div>
-     {{ template "footer"}} {{ end }} {{define "footer"}}
-  </div>
+    <form action="/test" method="POST">
+      <input type="text" class="form-control" name="name" placeholder="Serien">
+  <button  type="submit" class="btn btn-primary">Suchen</button>
+  </form>
 </body>
 
 </html>
