@@ -14,41 +14,39 @@
 
 <body>
   <div class="container-fluid col-12">
-    {{end}} {{define "content"}} {{ template "header"}}    
-    <table border="1">
-      <tr>
-        <th>Cover</th>
-        <th>Serie</th>
-        <th>Episoden</th>
-      </tr>
-      {{ range $key, $serie := . }}
-      <tr>
-        <td><img src={{$serie.Cover}} alt="" border=3 height=150 width=100></img>
-        </td>
-        <td>{{$serie.Name}}</td>
-        <td>
-          <table border="1">
+    {{end}} {{define "content"}} {{ template "header"}}
+    <div class="card-group">
+    {{ range $key, $serie := . }}
+    <div class="card" style="width: 22rem;">
+      <div class="mh-100 mx-auto" style="width: 100px; height: 150px;">
+        <img class="card-img-top img-thumbnail " src="{{$serie.Cover}}" alt="Card image cap">
+      </div>
+      <div class="card-block">
+        <h4 class="card-title text-center">{{$serie.Name}}</h4>
+        <table class="table table-hover">
+          <thead>
             <tr>
               <th>Staffel</th>
               <th>Folge</th>
               <th>Name</th>
             </tr>
+          </thead>
+          <tbody>
             {{ range $keyF, $was := .Folge }}
             <tr>
               <td>{{(index $serie.Folge $keyF).Staffel}}</td>
               <td>{{(index $serie.Folge $keyF).Nummer}}</td>
               <td>{{(index $serie.Folge $keyF).FolgenName}}</td>
             </tr>
-        </td>
-        {{end}}
+            {{end}}
+          </tbody>
         </table>
-      </tr>
-      </tr>
-      {{ end }}
-    </table>
-</body>
-{{ template "footer"}} {{ end }} {{define "footer"}}
-</div>
+      </div>
+    </div>
+    {{end}}
+    </div>
+     {{ template "footer"}} {{ end }} {{define "footer"}}
+  </div>
 </body>
 
 </html>
