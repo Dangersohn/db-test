@@ -49,6 +49,7 @@ type Folge struct {
 	FolgenName string
 	Nummer     string
 	Staffel    string
+	Gesehen    bool
 }
 
 func main() {

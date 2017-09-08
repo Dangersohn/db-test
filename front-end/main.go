@@ -20,6 +20,7 @@ type Folge struct {
 	FolgenName string
 	Nummer     string
 	Staffel    string
+	Gesehen    bool
 }
 
 func main() {
@@ -27,12 +28,11 @@ func main() {
 	router := httprouter.New()
 	router.GET("/serien", serien)
 	router.GET("/find/:name", findEntry)
-	router.POST("/test", test)
+	router.POST("/test", suche)
 	log.Fatal(http.ListenAndServe(":4000", router))
 }
 
-func test(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	fmt.Print(r.FormValue("name"))
+func suche(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	http.Redirect(w, r, "/find/"+r.FormValue("name"), http.StatusFound)
 }
 
@@ -74,7 +74,7 @@ func serien(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Packt Json in eine Struck
 	var serie []Serie
 	json.Unmarshal(body, &serie)
-	fmt.Print(serie[0].Folge[1])
+	fmt.Print(serie[7].Folge[1].Gesehen)
 	//HTML
 	t, err := template.ParseGlob("template/*.html")
 	if err != nil {

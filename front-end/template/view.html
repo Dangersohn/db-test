@@ -33,7 +33,11 @@
             </thead>
             <tbody>
               {{ range $keyF, $was := .Folge }}
+              {{if (index $serie.Folge $keyF).Gesehen}}
+              <tr bgcolor="#E6E6FA">
+              {{else}}
               <tr>
+              {{end}}
                 <td>{{(index $serie.Folge $keyF).Staffel}}</td>
                 <td>{{(index $serie.Folge $keyF).Nummer}}</td>
                 <td>{{(index $serie.Folge $keyF).FolgenName}}</td>
