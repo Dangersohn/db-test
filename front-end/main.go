@@ -28,7 +28,7 @@ func main() {
 	router := httprouter.New()
 	router.GET("/serien", serien)
 	router.GET("/find/:name", findEntry)
-	router.POST("/test", suche)
+	router.POST("/suchen", suche)
 	log.Fatal(http.ListenAndServe(":4000", router))
 }
 

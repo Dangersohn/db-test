@@ -14,7 +14,7 @@
 
 <body>
   <div class="container-fluid col-12">
-    {{end}} {{define "content"}} {{ template "header"}}
+    {{end}} {{define "content"}} {{template "header"}}
     <div class="card-group">
       {{ range $key, $serie := . }}
       <div class="card" style="width: 22rem;">
@@ -47,13 +47,12 @@
           </table>
         </div>
       </div>
-      {{end}} {{ template "footer"}} {{ end }} {{define "footer"}}
+      {{end}} {{template "footer"}} {{end}} {{define "footer"}}
     </div>
-    <form action="/test" method="POST">
+    <form action="/suchen" method="POST">
       <input type="text" class="form-control" name="name" placeholder="Serien">
   <button  type="submit" class="btn btn-primary">Suchen</button>
   </form>
 </body>
-
 </html>
 {{end}}
