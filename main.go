@@ -131,18 +131,18 @@ func addEntry(s *mgo.Session) func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		c := session.DB(DBName).C(CollectionName)
-
-		err = c.Insert(serie)
-		if err != nil {
-			if mgo.IsDup(err) {
-				ErrorWithJSON(w, "Entry is allready in the DB", http.StatusBadRequest)
-				return
+		var res Serie
+		count, err := c.Find(bson.M{"name": serie.Name}).Count()
+		if count < 1 {
+			c.Insert(serie)
+		} else {
+			err = c.Find(bson.M{"name": serie.Name}).One(&res)
+			err = c.Update(res, serie)
+			if err != nil {
+				log.Printf("Update : Error : %s\n", err)
 			}
-
-			ErrorWithJSON(w, "Database err", http.StatusInternalServerError)
-			log.Println("Faild insert Entry", err)
-			return
 		}
+
 		w.Header().Set("Content-Typ", "application/json")
 		w.Header().Set("Location", r.URL.Path+"/"+serie.Name)
 		w.WriteHeader(http.StatusCreated)
