@@ -74,7 +74,6 @@ func serien(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Packt Json in eine Struck
 	var serie []Serie
 	json.Unmarshal(body, &serie)
-	fmt.Print(serie[7].Folge[1].Gesehen)
 	//HTML
 	t, err := template.ParseGlob("template/*.html")
 	if err != nil {
