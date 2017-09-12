@@ -131,16 +131,9 @@ func addEntry(s *mgo.Session) func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		c := session.DB(DBName).C(CollectionName)
-		var res Serie
-		count, err := c.Find(bson.M{"name": serie.Name}).Count()
-		if count < 1 {
-			c.Insert(serie)
-		} else {
-			err = c.Find(bson.M{"name": serie.Name}).One(&res)
-			err = c.Update(res, serie)
-			if err != nil {
-				log.Printf("Update : Error : %s\n", err)
-			}
+		_, err = c.Upsert(bson.M{"name": serie.Name}, serie)
+		if err != nil {
+			log.Printf("Update : Error : %s\n", err)
 		}
 
 		w.Header().Set("Content-Typ", "application/json")
