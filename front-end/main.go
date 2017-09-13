@@ -18,8 +18,8 @@ type Serie struct {
 }
 type Folge struct {
 	FolgenName string
-	Nummer     string
-	Staffel    string
+	Nummer     int
+	Staffel    int
 	Gesehen    bool
 }
 
@@ -29,11 +29,24 @@ func main() {
 	router.GET("/serien", serien)
 	router.GET("/find/:name", findEntry)
 	router.POST("/suchen", suche)
+	router.GET("/add", add)
 	log.Fatal(http.ListenAndServe(":4000", router))
 }
 
 func suche(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	http.Redirect(w, r, "/find/"+r.FormValue("name"), http.StatusFound)
+}
+
+func add(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	t, err := template.ParseGlob("template/*.html")
+	if err != nil {
+		fmt.Print(err)
+	}
+	// fürt das Template von bereich Contetn aus
+	err = t.ExecuteTemplate(w, "addentry", "test")
+	if err != nil {
+		panic(err)
+	}
 }
 
 func findEntry(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {

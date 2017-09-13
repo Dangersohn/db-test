@@ -1,0 +1,66 @@
+{
+    "name": "Game of Thrones",
+    "cover": "https://drive.google.com/uc?id=0B8QqZN2m0iKZMEh3c0FLZ20ta0E",
+    "folge": [
+      {
+        "folgenName": "Winter is comming",
+        "nummer": 1,
+        "staffel": 1,
+        "gesehen": false
+      },
+      {
+        "folgenName": "The Kingsroad",
+        "nummer": 2,
+        "staffel": 1,
+        "gesehen": false
+      },
+      {
+        "folgenName": "Lord Snow",
+        "nummer": 3,
+        "staffel": 1,
+        "gesehen": false
+      },
+      {
+        "folgenName": "Cripples, Bastards, and Broken Things",
+        "nummer": 4,
+        "staffel": 1,
+        "gesehen": false
+      },
+      {
+        "folgenName": "The Wolf and the Lion",
+        "nummer": 5,
+        "staffel": 1,
+        "gesehen": false
+      },
+      {
+        "folgenName": "A Golden Crown",
+        "nummer": 6,
+        "staffel": 1,
+        "gesehen": false
+      },
+      {
+        "folgenName": "You Win or You Die",
+        "nummer": 7,
+        "staffel": 1,
+        "gesehen": false
+      },
+      {
+        "folgenName": "The Pointy End",
+        "nummer": 8,
+        "staffel": 1,
+        "gesehen": false
+      },
+      {
+        "folgenName": "Baelor",
+        "nummer": 9,
+        "staffel": 1,
+        "gesehen": false
+      },
+      {
+        "folgenName": "Fire and Blood",
+        "nummer": 10,
+        "staffel": 1,
+        "gesehen": false
+      }
+    ]
+  }

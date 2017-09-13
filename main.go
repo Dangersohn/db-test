@@ -41,15 +41,15 @@ func ResponseWithJSON(w http.ResponseWriter, json []byte, code int) {
 
 // Serie Speichert serien
 type Serie struct {
-	Name  string
-	Cover string
+	Name  string `json:"name"`
+	Cover string `json:"cover"`
 	Folge []Folge
 }
 type Folge struct {
-	FolgenName string
-	Nummer     string
-	Staffel    string
-	Gesehen    bool
+	FolgenName string `json:"folgenname"`
+	Nummer     int    `json:"nummer"`
+	Staffel    int    `json:"staffel"`
+	Gesehen    bool   `json:"gesehen"`
 }
 
 func main() {
